@@ -1,6 +1,6 @@
 # Thaumcraft Research Helper
-## Usage
 
+## Usage
 
 ## Info
 
