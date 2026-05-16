@@ -1,6 +1,6 @@
 import translate from "../../data/translation_dict.json";
 import { getAspectsForVersion } from "../../utils";
-import Select, { components } from "react-select";
+import Select from "react-select";
 
 type VersionKey = keyof typeof import("../../data/version_dict.json");
 type AspectKey = keyof typeof translate;
@@ -14,16 +14,39 @@ type Props = {
 export default function FromAspect({ version, value, onChange }: Props) {
   const aspects = getAspectsForVersion(version) as AspectKey[];
 
+  const options = aspects.map((aspect) => {
+    const translated = (translate as Record<string, string>)[aspect] ?? aspect;
+    return {
+      value: aspect,
+      label: translated,
+      image: new URL(`../../assets/colour/${translated}.png`, import.meta.url)
+        .href,
+    };
+  });
+
+  const selectedOption = options.find((opt) => opt.value === value);
+
   return (
-    <select
-      value={value}
-      onChange={(e) => onChange(e.target.value as AspectKey)}
-    >
-      {aspects.map((aspect) => (
-        <option key={aspect} value={aspect}>
-          {(translate as Record<string, string>)[aspect] ?? aspect}
-        </option>
-      ))}
-    </select>
+    <Select
+      options={options}
+      value={selectedOption}
+      onChange={(selected) => {
+        if (selected) {
+          onChange(selected.value);
+        }
+      }}
+      isSearchable
+      isClearable={false}
+      formatOptionLabel={(option) => (
+        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <img
+            src={option.image}
+            alt={option.label}
+            style={{ width: "20px", height: "20px" }}
+          />
+          <span>{option.label}</span>
+        </div>
+      )}
+    />
   );
 }

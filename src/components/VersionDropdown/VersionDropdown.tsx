@@ -1,5 +1,5 @@
 import verList from "../../data/version_dict.json";
-import Select, { components } from "react-select";
+import Select from "react-select";
 
 type VersionKey = keyof typeof verList;
 
@@ -8,18 +8,25 @@ type Props = {
   onChange: (v: VersionKey) => void;
 };
 
+type Option = { value: VersionKey; label: string };
+
 export default function VersionDropdown({ value, onChange }: Props) {
+  const options: Option[] = Object.keys(verList).map((v) => ({
+    value: v as VersionKey,
+    label: v,
+  }));
+
+  const selected = options.find((o) => o.value === value) ?? null;
+
   return (
-    <select
-      id="version"
-      value={value}
-      onChange={(e) => onChange(e.target.value as VersionKey)}
-    >
-      {Object.keys(verList).map((version) => (
-        <option key={version} value={version}>
-          {version}
-        </option>
-      ))}
-    </select>
+    <Select<Option, false>
+      options={options}
+      value={selected}
+      onChange={(opt) => {
+        if (opt) onChange(opt.value);
+      }}
+      isClearable={false}
+      isSearchable
+    />
   );
 }
