@@ -11,6 +11,38 @@ type Props = {
 type Option = { value: VersionKey; label: string };
 
 export default function VersionDropdown({ value, onChange }: Props) {
+  const customStyles = {
+    control: (base: any, state: any) => ({
+      ...base,
+      backgroundColor: "var(--surface)",
+      borderColor: state.isFocused ? "var(--primary)" : "var(--border)",
+      boxShadow: state.isFocused ? "0 0 0 1px var(--primary)" : "none",
+      "&:hover": {
+        borderColor: "var(--primary-hover)",
+      },
+    }),
+    singleValue: (base: any) => ({
+      ...base,
+      color: "var(--text)",
+    }),
+    menu: (base: any) => ({
+      ...base,
+      backgroundColor: "var(--surface)",
+      border: "1px solid var(--border)",
+      overflow: "hidden",
+    }),
+    option: (base: any, state: any) => ({
+      ...base,
+      backgroundColor: state.isSelected
+        ? "var(--primary)"
+        : state.isFocused
+          ? "var(--surface-2)"
+          : "transparent",
+      color: state.isSelected ? "var(--primary-contrast)" : "var(--text)",
+      cursor: "pointer",
+    }),
+  };
+
   const options: Option[] = Object.keys(verList).map((v) => ({
     value: v as VersionKey,
     label: v,
@@ -23,6 +55,7 @@ export default function VersionDropdown({ value, onChange }: Props) {
       <label htmlFor="verDropdown">Version Dropdown: </label>
       <Select<Option, false>
         id="verDropdown"
+        styles={customStyles}
         options={options}
         value={selected}
         onChange={(opt) => {

@@ -24,6 +24,38 @@ export default function FromAspect({ version, value, onChange }: Props) {
     };
   });
 
+  const customStyles = {
+    control: (base: any, state: any) => ({
+      ...base,
+      backgroundColor: "var(--surface)",
+      borderColor: state.isFocused ? "var(--primary)" : "var(--border)",
+      boxShadow: state.isFocused ? "0 0 0 1px var(--primary)" : "none",
+      "&:hover": {
+        borderColor: "var(--primary-hover)",
+      },
+    }),
+    singleValue: (base: any) => ({
+      ...base,
+      color: "var(--text)",
+    }),
+    menu: (base: any) => ({
+      ...base,
+      backgroundColor: "var(--surface)",
+      border: "1px solid var(--border)",
+      overflow: "hidden",
+    }),
+    option: (base: any, state: any) => ({
+      ...base,
+      backgroundColor: state.isSelected
+        ? "var(--primary)"
+        : state.isFocused
+          ? "var(--surface-2)"
+          : "transparent",
+      color: state.isSelected ? "var(--primary-contrast)" : "var(--text)",
+      cursor: "pointer",
+    }),
+  };
+
   const selectedOption = options.find((opt) => opt.value === value);
 
   return (
@@ -31,6 +63,7 @@ export default function FromAspect({ version, value, onChange }: Props) {
       <label htmlFor="FromAspect">From:</label>
       <Select
         id="FromAspect"
+        styles={customStyles}
         options={options}
         value={selectedOption}
         onChange={(selected) => {

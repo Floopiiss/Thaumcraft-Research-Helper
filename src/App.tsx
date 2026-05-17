@@ -32,22 +32,30 @@ function App() {
   return (
     <>
       <div>
-        <div className="tile">
-          <VersionDropdown value={version} onChange={(v) => setVersion(v)} />
-          <MinSteps value={steps} onChange={(v) => setSteps(v)} />
+        <div className="form-row">
+          <div className="form-col">
+            <VersionDropdown value={version} onChange={(v) => setVersion(v)} />
+          </div>
+          <div className="form-col">
+            <MinSteps value={steps} onChange={(v) => setSteps(v)} />
+          </div>
         </div>
-
-        <FromAspect
-          version={version}
-          value={selectedTo}
-          onChange={(v) => setSelectedTo(v)}
-        />
-
-        <ToAspect
-          version={version}
-          value={selectedFrom}
-          onChange={(v) => setSelectedFrom(v)}
-        />
+        <div className="form-row">
+          <div className="form-col">
+            <FromAspect
+              version={version}
+              value={selectedTo}
+              onChange={(v) => setSelectedTo(v)}
+            />
+          </div>
+          <div className="form-col">
+            <ToAspect
+              version={version}
+              value={selectedFrom}
+              onChange={(v) => setSelectedFrom(v)}
+            />
+          </div>
+        </div>
       </div>
     </>
   );
