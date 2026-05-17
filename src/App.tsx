@@ -31,7 +31,7 @@ function App() {
 
   return (
     <>
-      <div>
+      <div className="gap-10">
         <div className="form-row">
           <div className="form-col">
             <VersionDropdown value={version} onChange={(v) => setVersion(v)} />
@@ -40,22 +40,17 @@ function App() {
             <MinSteps value={steps} onChange={(v) => setSteps(v)} />
           </div>
         </div>
-        <div className="form-row">
-          <div className="form-col">
-            <FromAspect
-              version={version}
-              value={selectedTo}
-              onChange={(v) => setSelectedTo(v)}
-            />
-          </div>
-          <div className="form-col">
-            <ToAspect
-              version={version}
-              value={selectedFrom}
-              onChange={(v) => setSelectedFrom(v)}
-            />
-          </div>
-        </div>
+        <FromAspect
+          version={version}
+          value={selectedTo}
+          onChange={(v) => setSelectedTo(v)}
+        />
+
+        <ToAspect
+          version={version}
+          value={selectedFrom}
+          onChange={(v) => setSelectedFrom(v)}
+        />
       </div>
     </>
   );
