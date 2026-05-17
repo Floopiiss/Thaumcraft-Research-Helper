@@ -27,26 +27,30 @@ export default function FromAspect({ version, value, onChange }: Props) {
   const selectedOption = options.find((opt) => opt.value === value);
 
   return (
-    <Select
-      options={options}
-      value={selectedOption}
-      onChange={(selected) => {
-        if (selected) {
-          onChange(selected.value);
-        }
-      }}
-      isSearchable
-      isClearable={false}
-      formatOptionLabel={(option) => (
-        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <img
-            src={option.image}
-            alt={option.label}
-            style={{ width: "20px", height: "20px" }}
-          />
-          <span>{option.label}</span>
-        </div>
-      )}
-    />
+    <>
+      <label htmlFor="FromAspect">From:</label>
+      <Select
+        id="FromAspect"
+        options={options}
+        value={selectedOption}
+        onChange={(selected) => {
+          if (selected) {
+            onChange(selected.value);
+          }
+        }}
+        isSearchable
+        isClearable={false}
+        formatOptionLabel={(option) => (
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <img
+              src={option.image}
+              alt={option.label}
+              style={{ width: "20px", height: "20px" }}
+            />
+            <span>{option.label}</span>
+          </div>
+        )}
+      />
+    </>
   );
 }

@@ -19,14 +19,18 @@ export default function VersionDropdown({ value, onChange }: Props) {
   const selected = options.find((o) => o.value === value) ?? null;
 
   return (
-    <Select<Option, false>
-      options={options}
-      value={selected}
-      onChange={(opt) => {
-        if (opt) onChange(opt.value);
-      }}
-      isClearable={false}
-      isSearchable
-    />
+    <>
+      <label htmlFor="verDropdown">Version Dropdown: </label>
+      <Select<Option, false>
+        id="verDropdown"
+        options={options}
+        value={selected}
+        onChange={(opt) => {
+          if (opt) onChange(opt.value);
+        }}
+        isClearable={false}
+        isSearchable
+      />
+    </>
   );
 }

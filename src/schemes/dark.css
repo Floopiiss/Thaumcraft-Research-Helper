@@ -1,0 +1,29 @@
+:root {
+  color-scheme: dark;
+  --bg: #0b1220;
+  --bg-elevated: #111827;
+  --surface: #111827;
+  --surface-2: #172033;
+  --surface-3: #22304a;
+  --text: #e5eefb;
+  --muted: #94a3b8;
+  --border: #2b3a54;
+  --primary: #60a5fa;
+  --primary-hover: #3b82f6;
+  --primary-contrast: #08111f;
+  --secondary: #2dd4bf;
+  --accent: #c084fc;
+  --success: #4ade80;
+  --warning: #fbbf24;
+  --danger: #f87171;
+  --link: #93c5fd;
+  --selection: rgba(96, 165, 250, 0.24);
+  --shadow: 0 16px 40px rgba(0, 0, 0, 0.32);
+}
+
+body {
+  background:
+    radial-gradient(circle at top, rgba(59, 130, 246, 0.14), transparent 35%),
+    linear-gradient(180deg, #0b1220 0%, #111827 100%);
+  color: var(--text);
+}
