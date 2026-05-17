@@ -11,6 +11,7 @@ import VersionDropdown from "./components/VersionDropdown";
 import FromAspect from "./components/FromAspect";
 import ToAspect from "./components/ToAspect";
 import MinSteps from "./components/MinSteps";
+import FindConnectionBtn from "./components/FindConnectionBtn";
 
 type VersionKey = keyof typeof verList;
 type AspectKey = keyof typeof translate;
@@ -45,12 +46,12 @@ function App() {
           value={selectedTo}
           onChange={(v) => setSelectedTo(v)}
         />
-
         <ToAspect
           version={version}
           value={selectedFrom}
           onChange={(v) => setSelectedFrom(v)}
         />
+        <FindConnectionBtn />
       </div>
     </>
   );
