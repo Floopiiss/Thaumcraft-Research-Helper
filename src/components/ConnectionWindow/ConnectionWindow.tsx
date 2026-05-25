@@ -43,7 +43,7 @@ export default function ConnectionWindow({
       }
     >
       <div className="titlebar">
-        <div className="title">Connection</div>
+        <div className="title">Connections</div>
         <button
           className="close-btn"
           aria-label="Close"

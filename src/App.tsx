@@ -3,6 +3,10 @@ import { useState } from "react";
 import { getAspectsForVersion } from "./utils";
 // CSS
 import "./App.css";
+// SVGs
+import Moon from "./assets/moon.svg?react";
+import Sun from "./assets/sun.svg?react";
+// import Catppuccin from "./assets/catppuccin.svg?react";
 // Data
 import verList from "./data/version_dict.json";
 import translate from "./data/translation_dict.json";
@@ -82,6 +86,9 @@ function App() {
           onClose={() => setShowConnectionWindow(false)}
         />
       )}
+      <Moon style={{ color: "var(--scheme-icon)" }} />
+      <Sun style={{ color: "var(--scheme-icon)" }} />
+      {/* <Catppuccin /> */}
     </>
   );
 }

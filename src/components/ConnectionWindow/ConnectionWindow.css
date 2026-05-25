@@ -11,6 +11,8 @@
   min-height: 140px;
   user-select: none;
   touch-action: none;
+
+  padding: 8px !important; /* !important required to combat default padding on containers */
 }
 
 .draggable-container .titlebar {
@@ -18,7 +20,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 12px;
+  padding: 0 6px;
   gap: 8px;
   background: transparent;
   cursor: move;
