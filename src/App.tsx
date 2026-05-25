@@ -17,7 +17,7 @@ import ToAspect from "./components/ToAspect";
 import MinSteps from "./components/MinSteps";
 import FindConnectionBtn from "./components/FindConnectionBtn";
 import ConnectionWindow from "./components/ConnectionWindow";
-import ThemeButtons from "./components/ThemeButtons";
+import ButtonRow from "./components/ButtonRow";
 
 function App() {
   const defaultVersion = Object.keys(verList)[0] as VersionKey;
@@ -93,7 +93,7 @@ function App() {
           onClose={() => setShowConnectionWindow(false)}
         />
       )}
-      <ThemeButtons />
+      <ButtonRow />
     </>
   );
 }

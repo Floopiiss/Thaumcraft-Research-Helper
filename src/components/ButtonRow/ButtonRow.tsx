@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
-import "./ThemeButtons.css";
+import "./ButtonRow.css";
 import type { Theme } from "../../types/types";
 
 // SVGs
 import Moon from "../../assets/moon.svg?react";
 import Sun from "../../assets/sun.svg?react";
 import Help from "../../assets/help.svg?react";
+import Cog from "../../assets/cog.svg?react";
 
 // Attribution: "Cat" icon by Solar Icons on SVGRepo — https://www.svgrepo.com/svg/524392/cat — CC BY 4.0 https://creativecommons.org/licenses/by/4.0/
 // Attribution: "Cat" icon — source: https://www.svgrepo.com/svg/524392/cat
@@ -31,29 +32,30 @@ function getInitialTheme(): Theme {
   return "dark";
 }
 
-export default function ThemeButtons() {
-  const [open, setOpen] = useState(false);
+export default function ButtonRow() {
+  const [openHelpModal, setHelpModalOpen] = useState(false);
+  const [openSettingsModal, setSettingsModalOpen] = useState(false);
   const [theme, setTheme] = useState<Theme>(() => getInitialTheme());
 
+  // Theme
   useEffect(() => {
-    // apply theme to document so CSS can react immediately
     document.documentElement.setAttribute("data-theme", theme);
-    // persist choice
     try {
       localStorage.setItem("theme", theme);
     } catch {}
   }, [theme]);
 
+  // Help Modal
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") setHelpModalOpen(false);
     }
-    if (open) window.addEventListener("keydown", onKey);
+    if (openHelpModal) window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open]);
+  }, [openHelpModal]);
 
   useEffect(() => {
-    if (!open) return;
+    if (!openHelpModal) return;
 
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -61,7 +63,27 @@ export default function ThemeButtons() {
     return () => {
       document.body.style.overflow = previousOverflow;
     };
-  }, [open]);
+  }, [openHelpModal]);
+
+  // Settings Modal
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") setSettingsModalOpen(false);
+    }
+    if (openSettingsModal) window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [openSettingsModal]);
+
+  useEffect(() => {
+    if (!openSettingsModal) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [openSettingsModal]);
 
   return (
     <>
@@ -69,9 +91,18 @@ export default function ThemeButtons() {
         <button
           type="button"
           className="theme-btn transparent-styling"
+          aria-label="Settings Button"
+          title="Settings Button"
+          onClick={() => setSettingsModalOpen(true)}
+        >
+          <Cog />
+        </button>
+        <button
+          type="button"
+          className="theme-btn transparent-styling"
           aria-label="Help Button"
           title="Help Button"
-          onClick={() => setOpen(true)}
+          onClick={() => setHelpModalOpen(true)}
         >
           <Help />
         </button>
@@ -109,7 +140,7 @@ export default function ThemeButtons() {
         </button>
       </div>
 
-      {open &&
+      {openHelpModal &&
         createPortal(
           <div
             className="modal-backdrop"
@@ -117,7 +148,7 @@ export default function ThemeButtons() {
             aria-modal="true"
             aria-label="Help dialog"
             onClick={(e) => {
-              if (e.target === e.currentTarget) setOpen(false);
+              if (e.target === e.currentTarget) setHelpModalOpen(false);
             }}
           >
             <div className="modal-shell" tabIndex={-1}>
@@ -161,6 +192,22 @@ export default function ThemeButtons() {
                 </a>
               </p>
             </div>
+          </div>,
+          document.body,
+        )}
+
+      {openSettingsModal &&
+        createPortal(
+          <div
+            className="modal-backdrop"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Settings dialog"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) setSettingsModalOpen(false);
+            }}
+          >
+            <div className="modal-shell" tabIndex={-1}></div>
           </div>,
           document.body,
         )}
