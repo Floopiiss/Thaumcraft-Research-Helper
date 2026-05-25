@@ -1,0 +1,93 @@
+.bottom-right {
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-start;
+  max-width: fit-content;
+  padding: 4px;
+  z-index: 1000;
+  pointer-events: auto;
+}
+
+.bottom-right svg {
+  width: 28px;
+  height: 28px;
+  color: var(--scheme-icon);
+  fill: currentColor;
+  cursor: pointer;
+  transition:
+    transform 150ms ease,
+    opacity 150ms ease;
+}
+
+.bottom-right svg:hover {
+  transform: translateY(-2px);
+  opacity: 0.95;
+}
+
+.theme-btn {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--scheme-icon);
+  line-height: 0;
+  cursor: pointer;
+}
+
+.theme-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.theme-btn svg {
+  width: 28px;
+  height: 28px;
+  display: block;
+  fill: currentColor;
+}
+
+.transparent-styling {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.vertical-divider {
+  width: 1px;
+  height: 20px;
+  background: var(--border, rgba(0, 0, 0, 0.12));
+  opacity: 0.9;
+  align-self: center;
+  margin: 0 4px;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(10, 10, 16, 0.35);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.modal-shell {
+  width: min(100%, 56rem);
+  min-height: min(75vh, 44rem);
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+  color: var(--text);
+}

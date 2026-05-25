@@ -3,10 +3,6 @@ import { useState } from "react";
 import { getAspectsForVersion } from "./utils";
 // CSS
 import "./App.css";
-// SVGs
-import Moon from "./assets/moon.svg?react";
-import Sun from "./assets/sun.svg?react";
-// import Catppuccin from "./assets/catppuccin.svg?react";
 // Data
 import verList from "./data/version_dict.json";
 import translate from "./data/translation_dict.json";
@@ -17,6 +13,7 @@ import ToAspect from "./components/ToAspect";
 import MinSteps from "./components/MinSteps";
 import FindConnectionBtn from "./components/FindConnectionBtn";
 import ConnectionWindow from "./components/ConnectionWindow";
+import ThemeButtons from "./components/ThemeButtons";
 
 type VersionKey = keyof typeof verList;
 type AspectKey = keyof typeof translate;
@@ -86,9 +83,7 @@ function App() {
           onClose={() => setShowConnectionWindow(false)}
         />
       )}
-      <Moon style={{ color: "var(--scheme-icon)" }} />
-      <Sun style={{ color: "var(--scheme-icon)" }} />
-      {/* <Catppuccin /> */}
+      <ThemeButtons />
     </>
   );
 }
