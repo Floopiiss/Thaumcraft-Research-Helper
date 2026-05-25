@@ -30,7 +30,7 @@
 .draggable-container .title {
   font-size: 14px;
   font-weight: 600;
-  color: var(--window-fg, #e6e6f0);
+  color: var(--text, #e6e6f0);
 }
 
 .draggable-container .close-btn {

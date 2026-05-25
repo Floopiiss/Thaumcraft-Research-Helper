@@ -12,8 +12,37 @@ import Help from "../../assets/help.svg?react";
 // See ATTRIBUTIONS.md for full details.
 import Cat from "../../assets/cat.svg?react";
 
+type Theme = "light" | "dark" | "catppuccin";
+// tbh, im very bad with local storage stuff, this is pretty much full ai lol
+function getInitialTheme(): Theme {
+  if (typeof window === "undefined") return "dark"; // SSR
+  try {
+    const saved = localStorage.getItem("theme") as Theme | null;
+    if (saved) return saved;
+  } catch {
+    /* storage blocked */
+  }
+
+  // system preference fallback
+  if (window.matchMedia?.("(prefers-color-scheme: dark)").matches)
+    return "dark";
+
+  // final fallback
+  return "dark";
+}
+
 export default function ThemeButtons() {
   const [open, setOpen] = useState(false);
+  const [theme, setTheme] = useState<Theme>(() => getInitialTheme());
+
+  useEffect(() => {
+    // apply theme to document so CSS can react immediately
+    document.documentElement.setAttribute("data-theme", theme);
+    // persist choice
+    try {
+      localStorage.setItem("theme", theme);
+    } catch {}
+  }, [theme]);
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -54,6 +83,7 @@ export default function ThemeButtons() {
           className="theme-btn transparent-styling"
           aria-label="Switch to dark theme"
           title="Switch to dark theme"
+          onClick={() => setTheme("dark")}
         >
           <Moon />
         </button>
@@ -63,6 +93,7 @@ export default function ThemeButtons() {
           className="theme-btn transparent-styling"
           aria-label="Switch to light theme"
           title="Switch to light theme"
+          onClick={() => setTheme("light")}
         >
           <Sun />
         </button>
@@ -72,10 +103,12 @@ export default function ThemeButtons() {
           className="theme-btn transparent-styling"
           aria-label="Switch to Catppuccin Theme"
           title="Switch to Catppuccin Theme"
+          onClick={() => setTheme("catppuccin")}
         >
           <Cat />
         </button>
       </div>
+
       {open &&
         createPortal(
           <div

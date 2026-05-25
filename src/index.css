@@ -1,3 +1,6 @@
+@import "./themes/fallback_scheme.css";
+@import "./themes/light.css";
+@import "./themes/dark.css";
 @import "./themes/catppuccin.css";
 
 :root {

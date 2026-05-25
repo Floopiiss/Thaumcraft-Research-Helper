@@ -1,4 +1,4 @@
-:root {
+[data-theme="catppuccin"] {
   color-scheme: dark;
   --bg: #1e1e2e;
   --bg-elevated: #181825;
