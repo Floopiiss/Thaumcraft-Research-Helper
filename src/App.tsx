@@ -1,11 +1,15 @@
 // Libraries/Utils
 import { useEffect, useState } from "react";
-import { getAspectsForVersion, getInitialVersion } from "./utils";
+import { getAspectsForVersion } from "./utils";
+import type { VersionKey, AspectKey, WindowState } from "./types/types.d.ts";
+
 // CSS
 import "./App.css";
+
 // Data
 import verList from "./data/version_dict.json";
 import translate from "./data/translation_dict.json";
+
 // Component Imports
 import VersionDropdown from "./components/VersionDropdown";
 import FromAspect from "./components/FromAspect";
@@ -14,17 +18,6 @@ import MinSteps from "./components/MinSteps";
 import FindConnectionBtn from "./components/FindConnectionBtn";
 import ConnectionWindow from "./components/ConnectionWindow";
 import ThemeButtons from "./components/ThemeButtons";
-
-type VersionKey = keyof typeof verList;
-
-type AspectKey = keyof typeof translate;
-
-type WindowState = {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-};
 
 function App() {
   const defaultVersion = Object.keys(verList)[0] as VersionKey;

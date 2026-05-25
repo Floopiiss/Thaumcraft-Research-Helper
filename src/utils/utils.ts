@@ -1,6 +1,6 @@
 import verList from "../data/version_dict.json";
 import translate from "../data/translation_dict.json";
-type VersionKey = keyof typeof verList;
+import type { VersionKey } from "../types/types.d.ts";
 
 /**
  * Comparator function for sorting aspects by their translated names
@@ -40,15 +40,4 @@ export function getAspectsForVersion(
   );
 
   return combined as Array<keyof typeof translate>;
-}
-
-export function getInitialVersion(): VersionKey {
-  const fallback = Object.keys(verList)[0] as VersionKey;
-
-  try {
-    const saved = localStorage.getItem("version") as VersionKey | null;
-    return saved ?? fallback;
-  } catch {
-    return fallback;
-  }
 }

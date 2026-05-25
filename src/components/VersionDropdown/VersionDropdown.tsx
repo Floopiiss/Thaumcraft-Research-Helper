@@ -1,14 +1,11 @@
 import verList from "../../data/version_dict.json";
 import Select from "react-select";
-
-type VersionKey = keyof typeof verList;
+import type { VersionKey, Option } from "../../types/types";
 
 type Props = {
   value: VersionKey;
   onChange: (v: VersionKey) => void;
 };
-
-type Option = { value: VersionKey; label: string };
 
 export default function VersionDropdown({ value, onChange }: Props) {
   const customStyles = {

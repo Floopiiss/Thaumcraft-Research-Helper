@@ -1,9 +1,7 @@
 import translate from "../../data/translation_dict.json";
 import { getAspectsForVersion } from "../../utils";
 import Select from "react-select";
-
-type VersionKey = keyof typeof import("../../data/version_dict.json");
-type AspectKey = keyof typeof translate;
+import type { VersionKey, AspectKey } from "../../types/types";
 
 type Props = {
   version: VersionKey;

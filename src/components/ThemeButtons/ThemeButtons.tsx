@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import "./ThemeButtons.css";
+import type { Theme } from "../../types/types";
 
 // SVGs
 import Moon from "../../assets/moon.svg?react";
@@ -12,7 +13,6 @@ import Help from "../../assets/help.svg?react";
 // See ATTRIBUTIONS.md for full details.
 import Cat from "../../assets/cat.svg?react";
 
-type Theme = "light" | "dark" | "catppuccin";
 // tbh, im very bad with local storage stuff, this is pretty much full ai lol
 function getInitialTheme(): Theme {
   if (typeof window === "undefined") return "dark"; // SSR

@@ -1,20 +1,6 @@
 import "./ConnectionWindow.css";
 import { Rnd } from "react-rnd";
-
-type ConnectionWindowProps = {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  onMove: (next: { x: number; y: number }) => void;
-  onResize: (next: {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-  }) => void;
-  onClose?: () => void;
-};
+import type { ConnectionWindowProps } from "../../types/types";
 
 export default function ConnectionWindow({
   x,
