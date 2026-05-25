@@ -12,9 +12,16 @@ import FromAspect from "./components/FromAspect";
 import ToAspect from "./components/ToAspect";
 import MinSteps from "./components/MinSteps";
 import FindConnectionBtn from "./components/FindConnectionBtn";
+import ConnectionWindow from "./components/ConnectionWindow";
 
 type VersionKey = keyof typeof verList;
 type AspectKey = keyof typeof translate;
+type WindowState = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};
 
 function App() {
   const defaultVersion = Object.keys(verList)[0] as VersionKey;
@@ -29,10 +36,17 @@ function App() {
 
   const [selectedTo, setSelectedTo] = useState<AspectKey>(defaultAspect);
   const [selectedFrom, setSelectedFrom] = useState<AspectKey>(defaultAspect);
+  const [showConnectionWindow, setShowConnectionWindow] = useState(false);
+  const [connectionWindow, setConnectionWindow] = useState<WindowState>({
+    x: 100,
+    y: 100,
+    width: 320,
+    height: 200,
+  });
 
   return (
     <>
-      <div className="gap-10">
+      <div>
         <div className="form-row">
           <div className="form-col">
             <VersionDropdown value={version} onChange={(v) => setVersion(v)} />
@@ -51,8 +65,23 @@ function App() {
           value={selectedFrom}
           onChange={(v) => setSelectedFrom(v)}
         />
-        <FindConnectionBtn />
+        <FindConnectionBtn onClick={() => setShowConnectionWindow(true)} />
       </div>
+      {showConnectionWindow && (
+        <ConnectionWindow
+          x={connectionWindow.x}
+          y={connectionWindow.y}
+          width={connectionWindow.width}
+          height={connectionWindow.height}
+          onMove={({ x, y }) =>
+            setConnectionWindow((current) => ({ ...current, x, y }))
+          }
+          onResize={({ width, height, x, y }) =>
+            setConnectionWindow({ x, y, width, height })
+          }
+          onClose={() => setShowConnectionWindow(false)}
+        />
+      )}
     </>
   );
 }
