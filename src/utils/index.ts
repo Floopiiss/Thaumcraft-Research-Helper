@@ -1,1 +1,5 @@
-export { compareAspectsByTranslation, getAspectsForVersion } from "./utils";
+export {
+  compareAspectsByTranslation,
+  getAspectsForVersion,
+  getInitialVersion,
+} from "./utils";

@@ -41,3 +41,14 @@ export function getAspectsForVersion(
 
   return combined as Array<keyof typeof translate>;
 }
+
+export function getInitialVersion(): VersionKey {
+  const fallback = Object.keys(verList)[0] as VersionKey;
+
+  try {
+    const saved = localStorage.getItem("version") as VersionKey | null;
+    return saved ?? fallback;
+  } catch {
+    return fallback;
+  }
+}

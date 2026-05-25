@@ -1,6 +1,6 @@
 // Libraries/Utils
-import { useState } from "react";
-import { getAspectsForVersion } from "./utils";
+import { useEffect, useState } from "react";
+import { getAspectsForVersion, getInitialVersion } from "./utils";
 // CSS
 import "./App.css";
 // Data
@@ -16,7 +16,9 @@ import ConnectionWindow from "./components/ConnectionWindow";
 import ThemeButtons from "./components/ThemeButtons";
 
 type VersionKey = keyof typeof verList;
+
 type AspectKey = keyof typeof translate;
+
 type WindowState = {
   x: number;
   y: number;
@@ -26,7 +28,21 @@ type WindowState = {
 
 function App() {
   const defaultVersion = Object.keys(verList)[0] as VersionKey;
-  const [version, setVersion] = useState<VersionKey>(defaultVersion);
+  const [version, setVersion] = useState<VersionKey>(() => {
+    try {
+      return (localStorage.getItem("version") as VersionKey) ?? defaultVersion;
+    } catch {
+      return defaultVersion;
+    }
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("version", version);
+    } catch {
+      // ignore
+    }
+  }, [version]);
 
   const aspects = getAspectsForVersion(version) as AspectKey[];
 
@@ -37,6 +53,7 @@ function App() {
 
   const [selectedTo, setSelectedTo] = useState<AspectKey>(defaultAspect);
   const [selectedFrom, setSelectedFrom] = useState<AspectKey>(defaultAspect);
+
   const [showConnectionWindow, setShowConnectionWindow] = useState(false);
   const [connectionWindow, setConnectionWindow] = useState<WindowState>({
     x: 100,
