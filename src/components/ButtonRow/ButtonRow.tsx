@@ -185,8 +185,7 @@ export default function ButtonRow() {
                 <a href="https://ythri.github.io/tcresearch/">here</a>.
               </p>
               <p>
-                Recreated by Floop (with the help of some AI lol). Fork hosted
-                on{" "}
+                Recreated by Floop. Fork hosted on{" "}
                 <a href="https://github.com/Floopiiss/Thaumcraft-Research-Helper">
                   GitHub
                 </a>
@@ -207,7 +206,9 @@ export default function ButtonRow() {
               if (e.target === e.currentTarget) setSettingsModalOpen(false);
             }}
           >
-            <div className="modal-shell" tabIndex={-1}></div>
+            <div className="modal-shell" tabIndex={-1}>
+              
+            </div>
           </div>,
           document.body,
         )}
