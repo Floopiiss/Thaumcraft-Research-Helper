@@ -1,7 +1,11 @@
 // Libraries/Utils
 import { useEffect, useState } from "react";
-import { getAspectsForVersion } from "./utils";
-import type { VersionKey, AspectKey, WindowState } from "./types/types.d.ts";
+import {
+  buildGraph,
+  findConnection,
+  getAspectsForVersion,
+} from "./utils";
+import type { VersionKey, AspectKey, WindowState, ConnectionResult } from "./types/types.d.ts";
 
 // CSS
 import "./App.css";
@@ -55,6 +59,16 @@ function App() {
     height: 200,
   });
 
+  const [connection, setConnection] = useState<ConnectionResult>(null);
+
+  function handleFindConnection() {
+    const graph = buildGraph(verList[version].combinations);
+    const result = findConnection(graph, selectedFrom, selectedTo, steps);
+
+    setConnection(result);
+    setShowConnectionWindow(true);
+  }
+
   return (
     <>
       <div>
@@ -68,15 +82,15 @@ function App() {
         </div>
         <FromAspect
           version={version}
-          value={selectedTo}
-          onChange={(v) => setSelectedTo(v)}
-        />
-        <ToAspect
-          version={version}
           value={selectedFrom}
           onChange={(v) => setSelectedFrom(v)}
         />
-        <FindConnectionBtn onClick={() => setShowConnectionWindow(true)} />
+        <ToAspect
+          version={version}
+          value={selectedTo}
+          onChange={(v) => setSelectedTo(v)}
+        />
+        <FindConnectionBtn onClick={handleFindConnection} />
       </div>
       {showConnectionWindow && (
         <ConnectionWindow
@@ -84,6 +98,7 @@ function App() {
           y={connectionWindow.y}
           width={connectionWindow.width}
           height={connectionWindow.height}
+          connection={connection}
           onMove={({ x, y }) =>
             setConnectionWindow((current) => ({ ...current, x, y }))
           }

@@ -24,7 +24,6 @@ export function compareAspectsByTranslation(
 
 export function getAspectsForVersion(
   version: VersionKey,
-  enabledAddons: string[] = [],
 ): Array<keyof typeof translate> {
   const versionData = verList[version];
   const baseAspects = versionData.base_aspects || [];

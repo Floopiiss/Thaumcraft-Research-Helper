@@ -1,12 +1,14 @@
 import "./ConnectionWindow.css";
 import { Rnd } from "react-rnd";
 import type { ConnectionWindowProps } from "../../types/types";
+import ConnectionWindowContent from "../ConnectionWindowContent";
 
 export default function ConnectionWindow({
   x,
   y,
   width,
   height,
+  connection,
   onMove,
   onResize,
   onClose,
@@ -38,7 +40,9 @@ export default function ConnectionWindow({
           ×
         </button>
       </div>
-      <div className="content">{/* Replace with real content */}</div>
+      <div className="content">
+        <ConnectionWindowContent connection={connection} />
+      </div>
     </Rnd>
   );
 }

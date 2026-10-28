@@ -12,11 +12,12 @@ export type WindowState = {
   height: number;
 };
 
-type ConnectionWindowProps = {
+export type ConnectionWindowProps = {
   x: number;
   y: number;
   width: number;
   height: number;
+  connection: ConnectionResult;
   onMove: (next: { x: number; y: number }) => void;
   onResize: (next: {
     x: number;
@@ -29,3 +30,14 @@ type ConnectionWindowProps = {
 
 type Theme = "light" | "dark" | "catppuccin";
 type Option = { value: VersionKey; label: string };
+
+export type ConnectionResult = {
+  path: AspectKey[];
+  cost: number;
+} | null;
+
+export type SearchEntry = {
+  aspect: AspectKey;
+  path: AspectKey[];
+  cost: number;
+};
