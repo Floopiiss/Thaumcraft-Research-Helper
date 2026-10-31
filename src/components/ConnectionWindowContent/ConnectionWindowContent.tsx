@@ -27,7 +27,7 @@ export default function ConnectionWindowContent({ connection }: Props) {
                 ).href
               }
               alt={translate[aspect] ?? aspect}
-              style={{ width: "32px", height: "32px" }}
+              style={{ width: "40px", height: "40px" }}
             />
             {/* <span>{translate[aspect] ?? aspect}</span> */}
             {index < connection.path.length - 1 && (

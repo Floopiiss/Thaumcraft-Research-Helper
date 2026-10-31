@@ -13,6 +13,7 @@ import Cog from "../../assets/cog.svg?react";
 // Attribution: "Cat" icon — source: https://www.svgrepo.com/svg/524392/cat
 // See ATTRIBUTIONS.md for full details.
 import Cat from "../../assets/cat.svg?react";
+import SettingsModalContent from "../SettingsModalContent";
 
 // tbh, im very bad with local storage stuff, this is pretty much full ai lol
 function getInitialTheme(): Theme {
@@ -207,7 +208,7 @@ export default function ButtonRow() {
             }}
           >
             <div className="modal-shell" tabIndex={-1}>
-              
+              <SettingsModalContent />
             </div>
           </div>,
           document.body,
