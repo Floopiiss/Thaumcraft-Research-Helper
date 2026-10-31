@@ -13,6 +13,7 @@ export type WindowState = {
 };
 
 export type ConnectionWindowProps = {
+  id: number;
   x: number;
   y: number;
   width: number;

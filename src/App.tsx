@@ -1,11 +1,12 @@
 // Libraries/Utils
-import { useEffect, useState } from "react";
-import {
-  buildGraph,
-  findConnection,
-  getAspectsForVersion,
-} from "./utils";
-import type { VersionKey, AspectKey, WindowState, ConnectionResult } from "./types/types.d.ts";
+import { useEffect, useRef, useState } from "react";
+import { buildGraph, findConnection, getAspectsForVersion } from "./utils";
+import type {
+  VersionKey,
+  AspectKey,
+  WindowState,
+  ConnectionResult,
+} from "./types/types.d.ts";
 
 // CSS
 import "./App.css";
@@ -44,29 +45,82 @@ function App() {
   const aspects = getAspectsForVersion(version) as AspectKey[];
 
   const defaultAspect = aspects[0] ?? (Object.keys(translate)[0] as AspectKey);
+  const defaultToAspect = aspects[1] ?? defaultAspect;
 
   const defaultSteps = 1;
   const [steps, setSteps] = useState(defaultSteps);
 
-  const [selectedTo, setSelectedTo] = useState<AspectKey>(defaultAspect);
+  const [selectedTo, setSelectedTo] = useState<AspectKey>(defaultToAspect);
   const [selectedFrom, setSelectedFrom] = useState<AspectKey>(defaultAspect);
 
-  const [showConnectionWindow, setShowConnectionWindow] = useState(false);
-  const [connectionWindow, setConnectionWindow] = useState<WindowState>({
-    x: 100,
-    y: 100,
-    width: 320,
-    height: 200,
-  });
-
-  const [connection, setConnection] = useState<ConnectionResult>(null);
+  const [connectionWindows, setConnectionWindows] = useState<
+    Array<WindowState & { id: number; connection: ConnectionResult }>
+  >([]);
+  const nextWindowId = useRef(0);
 
   function handleFindConnection() {
+    if (selectedFrom === selectedTo) {
+      return;
+    }
+
     const graph = buildGraph(verList[version].combinations);
     const result = findConnection(graph, selectedFrom, selectedTo, steps);
 
-    setConnection(result);
-    setShowConnectionWindow(true);
+    if (result) {
+      const width = 320;
+      const height = 200;
+      const offset = connectionWindows.length * 24;
+      const id = nextWindowId.current++;
+
+      setConnectionWindows((current) => [
+        ...current,
+        {
+          id,
+          connection: result,
+          width,
+          height,
+          x: Math.max(
+            16,
+            Math.min(
+              window.innerWidth - width - 16,
+              (window.innerWidth - width) / 2 + offset,
+            ),
+          ),
+          y: Math.max(
+            16,
+            Math.min(
+              window.innerHeight - height - 16,
+              (window.innerHeight - height) / 2 + offset,
+            ),
+          ),
+        },
+      ]);
+    }
+  }
+
+  function updateConnectionWindow(
+    id: number,
+    update: Partial<WindowState>,
+  ) {
+    setConnectionWindows((current) =>
+      current.map((connectionWindow) =>
+        connectionWindow.id === id
+          ? { ...connectionWindow, ...update }
+          : connectionWindow,
+      ),
+    );
+  }
+
+  function handleVersionChange(nextVersion: VersionKey) {
+    const nextAspects = getAspectsForVersion(nextVersion) as AspectKey[];
+
+    setVersion(nextVersion);
+    setSelectedFrom(nextAspects[0] ?? (Object.keys(translate)[0] as AspectKey));
+    setSelectedTo(
+      nextAspects[1] ??
+        nextAspects[0] ??
+        (Object.keys(translate)[0] as AspectKey),
+    );
   }
 
   return (
@@ -74,7 +128,7 @@ function App() {
       <div>
         <div className="form-row">
           <div className="form-col">
-            <VersionDropdown value={version} onChange={(v) => setVersion(v)} />
+            <VersionDropdown value={version} onChange={handleVersionChange} />
           </div>
           <div className="form-col">
             <MinSteps value={steps} onChange={(v) => setSteps(v)} />
@@ -83,31 +137,52 @@ function App() {
         <FromAspect
           version={version}
           value={selectedFrom}
-          onChange={(v) => setSelectedFrom(v)}
+          onChange={(nextFrom) => {
+            if (nextFrom === selectedTo) {
+              setSelectedTo(selectedFrom);
+            }
+            setSelectedFrom(nextFrom);
+          }}
         />
         <ToAspect
           version={version}
           value={selectedTo}
-          onChange={(v) => setSelectedTo(v)}
+          onChange={(nextTo) => {
+            if (nextTo === selectedFrom) {
+              setSelectedFrom(selectedTo);
+            }
+            setSelectedTo(nextTo);
+          }}
         />
         <FindConnectionBtn onClick={handleFindConnection} />
       </div>
-      {showConnectionWindow && (
+      {connectionWindows.map((connectionWindow) => (
         <ConnectionWindow
+          key={connectionWindow.id}
+          id={connectionWindow.id}
           x={connectionWindow.x}
           y={connectionWindow.y}
           width={connectionWindow.width}
           height={connectionWindow.height}
-          connection={connection}
+          connection={connectionWindow.connection}
           onMove={({ x, y }) =>
-            setConnectionWindow((current) => ({ ...current, x, y }))
+            updateConnectionWindow(connectionWindow.id, { x, y })
           }
           onResize={({ width, height, x, y }) =>
-            setConnectionWindow({ x, y, width, height })
+            updateConnectionWindow(connectionWindow.id, {
+              x,
+              y,
+              width,
+              height,
+            })
           }
-          onClose={() => setShowConnectionWindow(false)}
+          onClose={() =>
+            setConnectionWindows((current) =>
+              current.filter((window) => window.id !== connectionWindow.id),
+            )
+          }
         />
-      )}
+      ))}
       <ButtonRow />
     </>
   );

@@ -9,6 +9,8 @@
   overflow: hidden;
   min-width: 220px;
   min-height: 140px;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100vh - 32px);
   user-select: none;
   touch-action: none;
 
@@ -52,7 +54,9 @@
 }
 
 .draggable-container .content {
-  padding: 12px;
+  padding: 0 0 0 0;
   flex: 1 1 auto;
   overflow: auto;
+  display: flex;
+  justify-content: center;
 }
